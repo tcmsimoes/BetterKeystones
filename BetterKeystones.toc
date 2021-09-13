@@ -1,0 +1,7 @@
+## Interface: 90005
+## Title: BetterKeystones
+## Notes: Improvements to the M+ Keystones
+## Author: Banksy
+## Version: 1.0
+
+core.lua
