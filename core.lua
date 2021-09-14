@@ -3,6 +3,10 @@ local TIME_FOR_2 = 0.8
 
 
 local function UpdateTime(block, elapsedTime)
+  if not block then
+    return
+  end
+
   if not block.BarPlus3 then
     block.BarPlus3 = block:CreateTexture(nil, "OVERLAY")
     block.BarPlus3:SetPoint("TOPLEFT", block.StatusBar, "TOPLEFT", block.StatusBar:GetWidth() * (1 - TIME_FOR_3) - 4, 0)
@@ -25,6 +29,10 @@ local progressCache = {}
 local isTeemingWeek
 
 local function OnTooltipSetUnit(tooltip)
+  if not tooltip then
+    return
+  end
+
   local scenarioType = select(10, C_Scenario.GetInfo())
   if scenarioType == LE_SCENARIO_TYPE_CHALLENGE_MODE then
     local name, unit = tooltip:GetUnit()
@@ -80,7 +88,7 @@ local function OnTooltipSetUnit(tooltip)
     end
   end
 end
-GameTooltip:HookScript("OnTooltipSetUnit", OnTooltipSetUnit)
+--GameTooltip:HookScript("OnTooltipSetUnit", OnTooltipSetUnit)
 
 local function SlotKeystone()
   for container = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
