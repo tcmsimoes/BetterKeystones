@@ -1,7 +1,7 @@
-## Interface: 90005
+## Interface: 90100
 ## Title: BetterKeystones
-## Notes: Improvements to the M+ Keystones
+## Notes: Improvements to the Myhtic+ Keystones
 ## Author: Banksy
-## Version: 1.0
+## Dependencies: Blizzard_ChallengesUI
 
 core.lua
