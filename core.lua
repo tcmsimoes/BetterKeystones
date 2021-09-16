@@ -38,39 +38,42 @@ local function OnTooltipSetUnit(tooltip)
         local name, unit = tooltip:GetUnit()
         local guid = unit and UnitGUID(unit)
         if guid then
-            local value, total, progressName
-            local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-", guid)
-            local npcId = tonumber(npc_id)
+            local value, total
+            local type, zero, serverId, instanceId, zoneUid, npcId, spawnUid = strsplit("-", guid)
+            local npcId = tonumber(npcId)
             local npcProgressCache = progressCache[npcId]
             if npcProgressCache then
                 value = npcProgressCache[0]
                 total = npcProgressCache[1]
-                progressName = npcProgressCache[2]
             elseif MDT then
                 if isTeemingWeek == nill then
-                    local _, affixes = C_ChallengeMode.GetActiveKeystoneInfo()
                     isTeemingWeek = false
-                    for _, affixID in ipairs(affixes) do
-                            if affixID == 5 then
-                                isTeemingWeek = true
-                            end
+                    local _, affixes = C_ChallengeMode.GetActiveKeystoneInfo()
+                    for _, affixId in ipairs(affixes) do
+                        if affixId == 5 then
+                            isTeemingWeek = true
+                        end
                     end
-                    print("HHH "..tostring(isTeemingWeek))
                 end
+
                 local count, max, maxTeeming, teemingCount = MDT:GetEnemyForces(npcId)
-                print("XXX "..count.."|"..max.."|"..maxTeeming.."|"..teemingCount)
+
+                if isTeemingWeek then
+                    value = count
+                    total = max
+                else
+                    value = teemingCount
+                    total = maxTeeming
+                end
 
                 npcProgressCache = {}
                 npcProgressCache[0] = value
                 npcProgressCache[1] = total
-                npcProgressCache[2] = progressName
                 progressCache[npcId] = npcProgressCache
             end
 
-            if value and total and progressName then
-                print("test 2")
-                local forcesFormat = format(" - %s: %%s", progressName)
-                local text = format( format(forcesFormat, "+%.2f%%"), value/total*100)
+            if value and total then
+                local text = format(format(forcesFormat, "+%.2f%%"), value / total * 100)
 
                 if text then
                     local matcher = format(forcesFormat, "%d+%%")
@@ -88,7 +91,7 @@ local function OnTooltipSetUnit(tooltip)
         end
     end
 end
---GameTooltip:HookScript("OnTooltipSetUnit", OnTooltipSetUnit)
+GameTooltip:HookScript("OnTooltipSetUnit", OnTooltipSetUnit)
 
 local function SlotKeystone()
     for container = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
