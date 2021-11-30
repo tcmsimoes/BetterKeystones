@@ -2,7 +2,6 @@
 ## Title: BetterKeystones
 ## Notes: Improvements to the Myhtic+ Keystones
 ## Author: Banksy
-## Dependencies: Blizzard_ChallengesUI
 ## OptionalDeps: MythicDungeonTools
 
 core.lua

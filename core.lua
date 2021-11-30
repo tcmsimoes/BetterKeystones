@@ -1,4 +1,3 @@
-local initialized = false
 local TIME_FOR_3 = 0.6
 local TIME_FOR_2 = 0.8
 
@@ -89,21 +88,6 @@ local function OnTooltipSetUnit(tooltip)
 end
 GameTooltip:HookScript("OnTooltipSetUnit", OnTooltipSetUnit)
 
-local function SlotKeystone()
-    for container = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
-        local slots = GetContainerNumSlots(container)
-        for slot = 1, slots do
-            local _, _, _, _, _, _, slotLink, _, _, _ = GetContainerItemInfo(container, slot)
-            if slotLink and slotLink:match("|Hkeystone:") then
-                PickupContainerItem(container, slot)
-                if CursorHasItem() then
-                    C_ChallengeMode.SlotKeystone()
-                end
-            end
-        end
-    end
-end
-
 
 local previousLineId = -1
 
@@ -137,12 +121,29 @@ ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER", ChatKeystoneFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", ChatKeystoneFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD", ChatKeystoneFilter)
 
+
+local function SlotKeystone()
+    for container = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
+        local slots = GetContainerNumSlots(container)
+        for slot = 1, slots do
+            local _, _, _, _, _, _, slotLink, _, _, _ = GetContainerItemInfo(container, slot)
+            if slotLink and slotLink:match("|Hkeystone:") then
+                PickupContainerItem(container, slot)
+                if CursorHasItem() then
+                    C_ChallengeMode.SlotKeystone()
+                end
+            end
+        end
+    end
+end
 local myFrame = CreateFrame("Frame")
+myFrame:RegisterEvent("ADDON_LOADED")
 myFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 myFrame:SetScript("OnEvent", function(self, event, ...)
-    if event == 'PLAYER_ENTERING_WORLD' and not initialized then
-        initialized = true
+    if IsAddOnLoaded("Blizzard_ChallengesUI") and ChallengesKeystoneFrame and ChallengesKeystoneFrame.OnShow then
         ChallengesKeystoneFrame:HookScript("OnShow", SlotKeystone)
+
+        self:UnregisterEvent('PLAYER_ENTERING_WORLD', self)
     end
 end)
