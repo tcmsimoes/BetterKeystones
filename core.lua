@@ -1,3 +1,4 @@
+local initialized = false
 local TIME_FOR_3 = 0.6
 local TIME_FOR_2 = 0.8
 
@@ -28,7 +29,7 @@ local function OnTooltipSetUnit(tooltip)
     local scenarioType = select(10, C_Scenario.GetInfo())
     if scenarioType == LE_SCENARIO_TYPE_CHALLENGE_MODE then
         local name, unit = tooltip:GetUnit()
-        if not UnitIsPlayer(unit) and UnitCanAttack("player", unit) then
+        if unit and not UnitIsPlayer(unit) and UnitCanAttack("player", unit) then
             local guid = unit and UnitGUID(unit)
             if guid then
                 local value, total
@@ -62,11 +63,13 @@ local function OnTooltipSetUnit(tooltip)
                     npcProgressCache = {}
                     npcProgressCache[0] = value
                     npcProgressCache[1] = total
-                    progressCache.npcId = npcProgressCache
+                    progressCache[npcId] = npcProgressCache
+                else
+                    print("MythicDungeonTools addon not found!")
                 end
 
                 if value and total then
-                    local forcesMatcher = " - Enemy Forces: (%d%%).*"
+                    local forcesMatcher = " - Enemy Forces: (%d+%%).*"
 
                     for i=2, tooltip:NumLines() do
                         local tiptext = _G["GameTooltipTextLeft"..i]
@@ -74,7 +77,7 @@ local function OnTooltipSetUnit(tooltip)
 
                         if linetext then
                             for match in linetext:gmatch(forcesMatcher) do
-                                tiptext:SetText(format(" - Enemy Forces: %s/+%.2f%%", match, (value/total*100)))
+                                tiptext:SetText(format(" - Enemy Forces: %s | +%.2f%%", match, (value/total*100)))
                                 tooltip:Show()
                             end
                         end
@@ -100,7 +103,6 @@ local function SlotKeystone()
         end
     end
 end
-ChallengesKeystoneFrame:HookScript("OnShow", SlotKeystone)
 
 
 local previousLineId = -1
@@ -134,3 +136,13 @@ end
 ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER", ChatKeystoneFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", ChatKeystoneFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD", ChatKeystoneFilter)
+
+local myFrame = CreateFrame("Frame")
+myFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+
+myFrame:SetScript("OnEvent", function(self, event, ...)
+    if event == 'PLAYER_ENTERING_WORLD' and not initialized then
+        initialized = true
+        ChallengesKeystoneFrame:HookScript("OnShow", SlotKeystone)
+    end
+end)
