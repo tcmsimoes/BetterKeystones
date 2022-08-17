@@ -1,4 +1,4 @@
-## Interface: 90200
+## Interface: 90207
 ## Title: BetterKeystones
 ## Notes: Improvements to the Myhtic+ Keystones
 ## Author: Banksy
