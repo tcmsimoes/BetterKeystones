@@ -5,3 +5,4 @@
 ## OptionalDeps: MythicDungeonTools
 
 core.lua
+lfg.lua
