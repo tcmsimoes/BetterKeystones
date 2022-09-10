@@ -163,34 +163,34 @@ local function HasRemainingSlotsForLocalPlayerRole(lfgSearchResultID)
         ["TANK"] = "TANK_REMAINING",
         ["HEALER"] = "HEALER_REMAINING",
         ["DAMAGER"] = "DAMAGER_REMAINING",
-    };
+    }
 
     return roles[roleRemainingKeyLookup[playerRole]] > 0
 end
 
 local function sortSearchResultsCB(searchResultID1, searchResultID2)
-    local searchResultInfo1 = C_LFGList.GetSearchResultInfo(searchResultID1);
-    local searchResultInfo2 = C_LFGList.GetSearchResultInfo(searchResultID2);
+    local searchResultInfo1 = C_LFGList.GetSearchResultInfo(searchResultID1)
+    local searchResultInfo2 = C_LFGList.GetSearchResultInfo(searchResultID2)
 
-    local hasRemainingRole1 = HasRemainingSlotsForLocalPlayerRole(searchResultID1);
-    local hasRemainingRole2 = HasRemainingSlotsForLocalPlayerRole(searchResultID2);
+    local hasRemainingRole1 = HasRemainingSlotsForLocalPlayerRole(searchResultID1)
+    local hasRemainingRole2 = HasRemainingSlotsForLocalPlayerRole(searchResultID2)
 
-    local leaderName1 = searchResultInfo1.leaderName;
-    local leaderName2 = searchResultInfo2.leaderName;
+    local leaderName1 = searchResultInfo1.leaderName
+    local leaderName2 = searchResultInfo2.leaderName
 
-    local rioScore1 = 0;
-    local rioScore2 = 0;
+    local rioScore1 = 0
+    local rioScore2 = 0
 
     if leaderName1 then
-        rioScore1 = getRioScore(leaderName1);
+        rioScore1 = getRioScore(leaderName1)
     end
 
     if leaderName2 then
-        rioScore2 = getRioScore(leaderName2);
+        rioScore2 = getRioScore(leaderName2)
     end
 
     if (hasRemainingRole1 ~= hasRemainingRole2) then
-        return hasRemainingRole1;
+        return hasRemainingRole1
     end
 
     return rioScore1 > rioScore2
@@ -202,7 +202,11 @@ local function sortSearchResults(results)
     if #results > 0 and categoryID == 2 then
         -- filter if needed
 
-        table.sort(results, sortSearchResultsCB);
+        table.sort(results, sortSearchResultsCB)
+    end
+
+    if #results > 0 then
+        LFGListSearchPanel_UpdateResults(LFGListFrame.SearchPanel)
     end
 end
 
@@ -233,15 +237,15 @@ local function sortApplicantsCB(applicantID1, applicantID2)
     local name1 = C_LFGList.GetApplicantMemberInfo(applicantInfo1.applicantID, 1)
     local name2 = C_LFGList.GetApplicantMemberInfo(applicantInfo2.applicantID, 1)
 
-    local rioScore1 = 0;
-    local rioScore2 = 0;
+    local rioScore1 = 0
+    local rioScore2 = 0
 
     if name1 then
-        rioScore1 = getRioScore(name1);
+        rioScore1 = getRioScore(name1)
     end
 
     if name2 then
-        rioScore2 = getRioScore(name2);
+        rioScore2 = getRioScore(name2)
     end
 
     return rioScore1 > rioScore2
@@ -253,7 +257,11 @@ local function sortApplicants(applicants)
     if categoryID == 2 and #applicants > 0 then
         -- filter if needed
 
-        table.sort(applicants, sortApplicantsCB);
+        table.sort(applicants, sortApplicantsCB)
+    end
+
+    if #applicants > 0 then
+        LFGListApplicationViewer_UpdateResults(LFGListFrame.ApplicationViewer)
     end
 end
 
