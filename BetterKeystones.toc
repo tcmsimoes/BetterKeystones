@@ -8,4 +8,4 @@ KeyAutoSlot.lua
 KeyOnChat.lua
 OverrideLfg.lua
 OverrideTimer.lua
-#TooltipPercentage.lua
+TooltipPercentage.lua
