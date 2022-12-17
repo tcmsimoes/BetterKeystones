@@ -16,8 +16,8 @@ local function ChatKeystoneFilter(_, event, msg, player, _, _, _, _, _, _, _, _,
                 for bagId = 0, totalBags do
                     for slotId = 1, C_Container.GetContainerNumSlots(bagId) do
                         local info = C_Container.GetContainerItemInfo(bagId, slotId)
-                        if info and info.hyperlink:match("|Hkeystone:") then
-                            SendChatMessage(slotLink, channel)
+                        if info and info.hyperlink and info.hyperlink:match("|Hkeystone:") then
+                            SendChatMessage(info.hyperlink, channel)
                         end
                     end
                 end
