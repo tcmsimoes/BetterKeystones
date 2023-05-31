@@ -1,4 +1,4 @@
-## Interface: 100005
+## Interface: 100100
 ## Title: BetterKeystones
 ## Notes: Improvements to the Myhtic+ Keystones
 ## Author: Banksy
@@ -6,6 +6,5 @@
 
 KeyAutoSlot.lua
 KeyOnChat.lua
-OverrideLfg.lua
 OverrideTimer.lua
 TooltipPercentage.lua
