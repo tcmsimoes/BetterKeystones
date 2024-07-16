@@ -1,5 +1,6 @@
 ## Interface: 100200
 ## Title: BetterKeystones
+## IconTexture: 618858
 ## Notes: Improvements to the Myhtic+ Keystones
 ## Author: Banksy
 ## OptionalDeps: MythicDungeonTools
