@@ -17,7 +17,7 @@ myFrame:RegisterEvent("ADDON_LOADED")
 myFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 myFrame:SetScript("OnEvent", function(self, event, ...)
-    if IsAddOnLoaded("Blizzard_ChallengesUI") and ChallengesKeystoneFrame and ChallengesKeystoneFrame.OnShow then
+    if C_AddOns.IsAddOnLoaded("Blizzard_ChallengesUI") and ChallengesKeystoneFrame and ChallengesKeystoneFrame.OnShow then
         ChallengesKeystoneFrame:HookScript("OnShow", SlotKeystone)
 
         self:UnregisterEvent('PLAYER_ENTERING_WORLD', self)

@@ -1,4 +1,4 @@
-## Interface: 100207
+## Interface: 110002
 ## Title: BetterKeystones
 ## IconTexture: 618858
 ## Notes: Improvements to the Myhtic+ Keystones
@@ -7,5 +7,5 @@
 
 KeyAutoSlot.lua
 KeyOnChat.lua
-OverrideTimer.lua
+#OverrideTimer.lua
 TooltipPercentage.lua
